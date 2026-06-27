@@ -15,7 +15,7 @@ LiftLogは、筋トレの記録を管理するためのWebアプリです。
 https://liftlog-portfolio.vercel.app/
 
 - GitHub URL：  
-
+https://github.com/yuki-n190/liftlog-portfolio.git
 
 ---
 
