@@ -36,9 +36,9 @@ https://github.com/yuki-n190/liftlog-portfolio.git
 
 ## 設計ドキュメント
 
-- [ワイヤーフレーム](docs/ワイヤーフレーム.png)
+- [ワークフロー図](docs/LiftLog_ワークフロー図.png)
 - [ER図](docs/ER図.png)
-
+- [ワイヤーフレーム](docs/LiftLog_ワイヤーフレーム.png)
 ---
 
 ## 機能一覧
