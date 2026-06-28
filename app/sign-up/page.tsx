@@ -45,11 +45,11 @@ export default function SignUpPage() {
         }),
       })
 
-      const data = await response.json()
+      const loginResult  = await response.json()
 
       if (!response.ok) {
-        setError(data.message || "アカウント作成に失敗しました。")
-        setFieldErrors(data.errors || {})
+        setError(loginResult .message || "アカウント作成に失敗しました。")
+        setFieldErrors(loginResult .errors || {})
         return
       }
 
