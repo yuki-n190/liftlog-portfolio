@@ -3,7 +3,6 @@ import { NextResponse } from "next/server"
 import { getCurrentUser } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { validateWorkoutInput } from "@/lib/validations/workout"
-import { FieldError } from "@/components/ui/field"
 
 export const dynamic = "force-dynamic"
 
@@ -29,25 +28,19 @@ export async function DELETE(
       )
     }
 
-    const existingWorkout = await prisma.workoutLog.findFirst({
+    const deleteResult = await prisma.workoutLog.deleteMany({
       where: {
         id,
         userId: user.id,
       },
     })
 
-    if (!existingWorkout) {
+    if (deleteResult.count === 0) {
       return NextResponse.json(
         { message: "Workout not found." },
         { status: 404 }
       )
     }
-
-    await prisma.workoutLog.delete({
-      where: {
-        id,
-      },
-    })
 
     return NextResponse.json({
       message: "Workout deleted.",
@@ -78,7 +71,7 @@ export async function PATCH(
     if (!validation.ok) {
       return NextResponse.json(
         {
-          messsage: validation.message,
+          message: validation.message,
           fieldErrors: validation.fieldErrors,
         },
         { status: 400 }
@@ -94,34 +87,35 @@ export async function PATCH(
       )
     }
 
-    const existingWorkout = await prisma.workoutLog.findFirst({
+    const updateResult = await prisma.workoutLog.updateMany({
       where: {
         id,
         userId: user.id,
       },
+      data: {
+        exerciseName: validation.data.exerciseName,
+        weight: validation.data.weight,
+        reps: validation.data.reps,
+        sets: validation.data.sets,
+        rest: validation.data.rest,
+        tag: validation.data.tag,
+        memo: validation.data.memo,
+      },
     })
 
-    if (!existingWorkout) {
+    if (updateResult.count === 0) {
       return NextResponse.json(
         { message: "Workout not found." },
         { status: 404 }
       )
     }
 
-    const workout = await prisma.workoutLog.update({
+    const workout = await prisma.workoutLog.findFirst({
       where: {
         id,
+        userId: user.id,
       },
-      data: {
-      exerciseName: validation.data.exerciseName,
-      weight: validation.data.weight,
-      reps: validation.data.reps,
-      sets: validation.data.sets,
-      rest: validation.data.rest,
-      tag: validation.data.tag,
-      memo: validation.data.memo,
-      },
-      })
+    })
 
     return NextResponse.json({
       message: "Workout updated.",
